@@ -1,3 +1,12 @@
+
+// map setup
+let map = L.map('map').setView([51.483274, -0.043259], 12)
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
 // Check if geolocation is available in the user's browser
 if ('geolocation' in navigator) {
     // Get the user's location on page load
@@ -11,17 +20,9 @@ if ('geolocation' in navigator) {
         console.error('Error getting user location:', error);
     });
 } else {
-    alert('Geolocation is not available in your browser.');
-    
+    alert('Geolocation is not available in your browser.');   
 }
 
-
-let map = L.map('map').setView([51.483274, -0.043259], 12)
-
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
 // test 'courses' until I find  api for course data
 const golfCourses = [
     {
@@ -59,7 +60,19 @@ const golfCourses = [
         location: [13.463521, 144.843235],
         address: '15, Mangilao, 96913, Guam',
         website: 'https://www.mangilaoguam.com/en/'
-    }
+    },
+    {
+        name: 'Fazio Foothills',
+        location: [30.292896, 262.145827],
+        address: '8212 Barton Club Drive, Austin, TX, 78735, US',
+        website: 'https://www.omnihotels.com/hotels/austin-barton-creek/golf/fazio-foothills'
+    },
+    {
+        name: 'Orchid Course',
+        location: [13.413542, 144.743543],
+        address: 'LeoPalace Resort Guam, 221 Lake View Drive, Yona, 96915, Guam',
+        website: 'https://www.leopalaceresortguam.com/golf.html'
+    },
     // more course data
 ]
 const golfCourseMarkers = L.layerGroup().addTo(map)
@@ -73,10 +86,12 @@ golfCourses.forEach(course => {
         fillOpacity: 0.08,
         radius: 800
     }).addTo(golfCourseMarkers)
-    marker.bindPopup(`<b>${course.name}</b><p>Address:<br> ${course.address}<br>
-    Website:<br> <a href = '${course.website}' target = '_blank'>${course.website}</a></p>`) // adds popup of name when clicked on course 
+    marker.bindPopup(`<b>${course.name}</b><p><b>Address:</b><br> ${course.address}<br>
+    <b>Website:</b><br> <a href = '${course.website}' target = '_blank'>${course.website}</a></p>`) // adds popup of name when clicked on course 
 })
 
+
+// input value event listener
 document.getElementById('search').addEventListener('keydown', function (e) {
     if (e.code === 'Enter') {
         const searchTerm = this.value.toLowerCase();
@@ -88,6 +103,14 @@ document.getElementById('search').addEventListener('keydown', function (e) {
             alert('Course not found'); // display an error message if the course is not found
         }
     }
+});
+
+// menu btn click event
+const menuBtn = document.querySelector('.menu-btn');
+const nav = document.querySelector('nav');
+
+menuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
 });
 
 /* Practice to learn the basics of Leafletjs
